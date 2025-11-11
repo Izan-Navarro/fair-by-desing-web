@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Inicio – FAIRbyDesign</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/app.css" rel="stylesheet">
 </head>
 <body>
@@ -12,64 +13,238 @@
 
     <!-- HEADER -->
     <div class="header-wrap">
-      <iframe id="appHeader" class="header-iframe" src="partials/header.html" title="Header" scrolling="no" height="56"></iframe>
+      <header class="shadow-sm">
+        <div class="container-fluid g-0 p-0">
+          <div class="row g-0 align-items-stretch w-100">
+
+            <!-- Bloque izquierdo -->
+            <a href="../index.html"
+              class="col-auto d-flex align-items-center justify-content-center brand-block header-height text-decoration-none"
+              aria-label="Ir a inicio">
+              <span class="fw-bold text-dark">FAIRbyDesign</span>
+            </a>
+
+            <!-- Barra azul con navbar -->
+            <div class="col bg-nav">
+              <nav class="navbar navbar-expand-sm header-height px-3 bg-nav">
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#topNav" aria-controls="topNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="topNav">
+                  <ul class="navbar-nav ms-auto gap-sm-4">
+                    <li class="nav-item"><a class="nav-link" target="_top" href="../index.html">TOP</a></li>
+                    <li class="nav-item"><a class="nav-link" target="_top" href="../principles.html">PRINCIPLES</a></li>
+                    <li class="nav-item"><a class="nav-link" target="_top" href="../why.html">WHY?</a></li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+
+          </div>
+        </div>
+      </header>
     </div>
 
-    <!-- CONTENIDO (este bloque crece y empuja el footer) -->
+    <!-- Map -->
     <div class="page-content mb-0">
-      <iframe id="appMapa" class="w-100 d-block border-0" src="partials/map.html" title="Mapa" scrolling="no" height="1"></iframe>
+      <main class="container py-2 pb-0">  
+        <div class="position-relative" style="max-width:1140px; margin:auto;">
+          <img src="../assets/FiguraLOT.svg" class="img-fluid d-block " alt="Mapa FAIRbyDesign" onload="sendHeight()">
+          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/conceptualization.html')" style="left:14.74%; top:20.06%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/encoding.html')" data-key="encoding" style="left:29.65%; top:20.06%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/evaluation.html')" style="left:44.85%; top:20.06%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/documentation.html')" style="left:59.7%; top:20.06%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/requirements.html')" style="left:0.09%; top:20.21%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/publication.html')" style="left:74.3%; top:20.06%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/maintenance.html')" style="left:89.48%; top:20.21%; width:10.51%; height:17.96%;"></a>
+          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/reuse.html')" style="left:23.5%; top:79.4%; width:10.53%; height:17.96%;"></a>
+
+          <button id="prevBtn" class="nav-arrow nav-arrow--left" onclick="navigate(-1)" aria-label="Anterior">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <button id="nextBtn" class="nav-arrow nav-arrow--right" onclick="navigate(1)" aria-label="Siguiente">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+
+        </div>
+      </main>
+
+      <script>
+
+      function sendHeight() {
+        const h = Math.max(
+          document.body.scrollHeight, document.documentElement.scrollHeight,
+          document.body.offsetHeight,  document.documentElement.offsetHeight
+        );
+        parent.postMessage({ type: 'MAP_HEIGHT', height: h }, '*');
+      }
+
+      function enableHoverHighlight(){
+        document.querySelectorAll('.hotspot').forEach(el => {
+          el.addEventListener('mouseenter', () => {
+            el.classList.add('hotspot--active');
+            requestAnimationFrame(sendHeight);
+          });
+          el.addEventListener('mouseleave', () => {
+            el.classList.remove('hotspot--active');
+            requestAnimationFrame(sendHeight);
+          });
+        });
+      }
+      enableHoverHighlight();
+
+      function highlightActive() {
+        const key = (new URLSearchParams(location.search).get('active') || '').toLowerCase();
+        if (!key) return;
+        const el = document.querySelector('.hotspot[data-key="' + key + '"]');
+        if (el) placePinOn(el);        // <-- sin crear ningún .pin nuevo
+      }
+
+      // Inicializa
+      window.addEventListener('DOMContentLoaded', () => {
+        highlightActive();
+        sendHeight();
+      });
+      window.addEventListener('resize', sendHeight);
+
+      if('ResizeObserver' in window){
+        new ResizeObserver(sendHeight).observe(document.body);
+      }
+      </script>
     </div>
 
-    <section class="section-blue pt-3 pb-5 mt-0">
-      <div class="container">
-        <h1 class="section-title display-5 text-center mb-4">PRINCIPLES</h1>
-
-        <div class="row justify-content-center">
-          <div class="col-lg-10">
-            <ul class="mb-0">
-              <li class="mb-2"><strong>Findable:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eu tristique arcu, at pharetra lorem. Curabitur volutpat nulla a arcu laoreet.</li>
-              <li class="mb-2"><strong>Accessible:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porttitor sem quis sapien venenatis, id pulvinar lorem posuere.</li>
-              <li class="mb-2"><strong>Interoperable:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Vivamus eleifend mi sed nunc pretium, at cursus augue interdum.</li>
-              <li class="mb-0"><strong>Reusable:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis rhoncus sapien quis tortor ornare, vitae efficitur odio gravida.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== WHY? (banda gris) ===== -->
-    <section class="section-gray py-5">
-      <div class="container">
-        <h1 class="section-title display-5 text-center mb-4">WHY?</h1>
-
-        <div class="row justify-content-center">
-          <div class="col-lg-10">
-            <ul class="mb-0">
-              <li class="mb-2"><strong>Lorem ipsum:</strong> dolor sit amet, consectetur adipiscing elit. Aenean vitae porttitor nunc, non hendrerit arcu.</li>
-              <li class="mb-2"><strong>Curabitur:</strong> sit amet elit ac tortor dictum finibus. Praesent at arcu vitae dui elementum rutrum.</li>
-              <li class="mb-2"><strong>Vestibulum:</strong> ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer at sem hendrerit, fermentum arcu vel, faucibus urna.</li>
-              <li class="mb-0"><strong>Morbi:</strong> bibendum quam id nibh varius, id ultricies risus placerat. Cras imperdiet, urna sed efficitur feugiat, justo augue luctus velit.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="page-content" id="contentContainer">
+      
+    </div>
 
     <!-- FOOTER (siempre abajo) -->
     <div class="footer-wrap">
-      <iframe id="appFooter" class="footer-iframe" src="partials/footer.html" title="Footer" scrolling="no" height="60"></iframe>
+      <style>
+        :root{ --footer-bg:#f8fafc; --footer-border:#e5e7eb; --link:#4965ab; }
+        footer{ background:var(--footer-bg); border-top:1px solid var(--footer-border); }
+        .footer-content{ padding:18px 12px; color:#46505a; font-size:.95rem; }
+        a{ color:var(--link); text-decoration:none; font-weight:600; }
+        a:hover{ text-decoration:underline; }
+      </style>
+      <footer>
+        <div class="container footer-content d-flex flex-column flex-sm-row align-items-center justify-content-between gap-2">
+          <div>© <span id="y"></span> FAIRbyDesign · All rights reserved</div>
+          <div class="d-flex gap-3">
+            <a href="/principles.html">Principles</a>
+            <a href="/why.html">Why?</a>
+            <a href="/index.html">Top</a>
+          </div>
+        </div>
+      </footer>
     </div>
 
   </div>
 
-  <script>
+<script>
+
+  let currentPageIndex = -1; // Índice actual de la página
+
+      // Lista de las páginas HTML del mapa
+      const pages = [
+        'partials/requirements.html',
+        'partials/conceptualization.html',
+        'partials/reuse.html',
+        'partials/encoding.html',
+        'partials/evaluation.html',
+        'partials/documentation.html',
+        'partials/publication.html',
+        'partials/maintenance.html'
+      ];
+
+  function updateNavButtons(){
+    prevBtn.disabled = currentPageIndex === 0;
+    nextBtn.disabled = currentPageIndex === pages.length - 1;
+  }
+
+  function loadContent(contentFile) {
+
+    const idx = pages.indexOf(contentFile);
+    if (idx !== -1) {
+      currentPageIndex = idx;
+      updateNavButtons();
+    }
+    // Limpiar el contenido anterior
+    document.getElementById('contentContainer').innerHTML = '';
+
+    fetch(contentFile) // Ruta del archivo con el contenido
+      .then(response => response.text()) // Obtener el contenido como texto
+      .then(html => {
+        document.getElementById('contentContainer').innerHTML = html; // Insertar el contenido en el div
+
+        // Solo ejecutar el código de los botones si el archivo contiene los botones
+        if (contentFile === 'partials/encoding.html') {
+          initializeButtonEvents(); // Solo si es el archivo correcto, inicializar los botones
+        }
+      })
+      .catch(error => console.error('Error al cargar el contenido:', error));
+  }
+
+  function navigate(direction) {
+        currentPageIndex += direction; // Cambiar el índice
+        if (currentPageIndex < 0) {
+          currentPageIndex = 0; // No permitir que sea menor a 0
+        }
+        if (currentPageIndex >= pages.length) {
+          currentPageIndex = pages.length - 1; // No permitir que sea mayor al número de páginas
+        }
+
+        // Cargar la página correspondiente
+        loadContent(pages[currentPageIndex]);
+      }
+
+  // Función para inicializar los botones después de cargar el HTML
+  function initializeButtonEvents() {
+    const pills = document.querySelectorAll('.pillbar .btn-pill'); // Los botones
+    const blocks = document.querySelectorAll('.fair-content .block'); // Los bloques de contenido
+
+    function update() {
+      const active = new Set(
+        Array.from(pills)
+          .filter(b => b.classList.contains('active')) // Solo los botones con la clase 'active'
+          .map(b => b.dataset.key) // Obtener las claves del dataset de los botones
+      );
+      blocks.forEach(b => {
+        if (active.has(b.dataset.key)) {
+          b.classList.add('show'); // Mostrar el bloque
+        } else {
+          b.classList.remove('show'); // Ocultar el bloque
+        }
+      });
+    }
+
+    pills.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        update(); // Actualizar los bloques que se muestran
+      });
+    });
+
+    // Estado inicial (si quieres alguno marcado por defecto, actívalo aquí)
+    pills[0].classList.add('active');
+    update(); // Llamar a update para mostrar el contenido correspondiente al primer botón
+  }
+
+  // Llamar a la función para cargar el contenido principal cuando la página se carga por primera vez
+  window.onload = function() {
+    loadContent('partials/principal.html'); // Aquí especificas el archivo principal
+  }
+
   window.addEventListener('message', (ev) => {
     if (!ev.data || typeof ev.data.height !== 'number') return;
     if (ev.data.type === 'HEADER_HEIGHT') document.getElementById('appHeader').style.height = ev.data.height + 'px';
     if (ev.data.type === 'FOOTER_HEIGHT') document.getElementById('appFooter').style.height = ev.data.height + 'px';
     if (ev.data.type === 'MAP_HEIGHT')    document.getElementById('appMapa').style.height   = ev.data.height + 'px';
   });
-</script>
 
+</script>
+<script src="scripts/scriptsEncoding.js"></script>
 </body>
 </html>
