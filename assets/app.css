@@ -207,3 +207,76 @@ body { margin: 0; }
     border-radius: 8px;
     border: 1px solid #ccc;
 }
+
+
+.floating-shortcuts{
+  position: fixed;
+  right: 16px;
+  bottom: 80px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.floating-shortcuts .floating-btn{
+  border-radius: 999px;
+  padding: .4rem .7rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.8);
+  color:#111;
+  border:0;
+}
+
+.floating-shortcuts .floating-btn:hover{
+  background:#dae8fc;
+}
+
+
+.drop-area{
+  border: 2px dashed #4965ab;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  background:#f8fafc;
+  transition: background .2s, border-color .2s;
+}
+
+.drop-area.is-dragover{
+  background:#e0ebff;
+  border-color:#274187;
+}
+
+
+
+.brand-side-menu{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 260px;              /* ajusta ancho */
+  background:#ffffff;
+  box-shadow: 4px 0 18px rgba(0,0,0,.18);
+  z-index: 1200;
+  transform: translateX(-100%);
+  transition: transform .25s ease-out;
+  padding: 16px;
+  display:flex;
+  align-items:flex-start;
+}
+
+.brand-side-menu__inner{
+  width: 100%;
+  margin-top: 12px;          /* para despegar un poco del borde superior */
+}
+
+.brand-side-menu--open{
+  transform: translateX(0);
+}
+
+.brand-menu-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  z-index: 1190;
+}
