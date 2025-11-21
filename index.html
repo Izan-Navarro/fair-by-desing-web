@@ -18,11 +18,13 @@
           <div class="row g-0 align-items-stretch w-100">
 
             <!-- Bloque izquierdo -->
-            <a href="../index.html"
-              class="col-auto d-flex align-items-center justify-content-center brand-block header-height text-decoration-none"
-              aria-label="Ir a inicio">
+            <button
+              type="button"
+              id="brandMenuToggle"
+              class="col-auto d-flex align-items-center justify-content-center brand-block header-height border-0 bg-transparent text-decoration-none"
+              aria-label="Abrir menú FAIRbyDesign">
               <span class="fw-bold text-dark">FAIRbyDesign</span>
-            </a>
+            </button>
 
             <!-- Barra azul con navbar -->
             <div class="col bg-nav">
@@ -35,9 +37,9 @@
 
                 <div class="collapse navbar-collapse" id="topNav">
                   <ul class="navbar-nav ms-auto gap-sm-4">
-                    <li class="nav-item"><a class="nav-link" target="_top" href="../index.html">TOP</a></li>
-                    <li class="nav-item"><a class="nav-link" target="_top" href="../principles.html">PRINCIPLES</a></li>
-                    <li class="nav-item"><a class="nav-link" target="_top" href="../why.html">WHY?</a></li>
+                    <li class="nav-item"><a class="nav-link" target="_top" href="/index.html">XXXXX</a></li>
+                    <li class="nav-item"><a class="nav-link" target="_top" href="/principles.html">XXXXXXX</a></li>
+                    <li class="nav-item"><a class="nav-link" target="_top" href="/why.html">XXXX</a></li>
                   </ul>
                 </div>
               </nav>
@@ -52,7 +54,7 @@
     <div class="page-content mb-0">
       <main class="container py-2 pb-0">  
         <div class="position-relative" style="max-width:1140px; margin:auto;">
-          <img src="assets/FiguraLOT.svg" class="img-fluid d-block " alt="Mapa FAIRbyDesign" onload="sendHeight()">
+          <img src="../assets/FiguraLOT.svg" class="img-fluid d-block " alt="Mapa FAIRbyDesign" onload="sendHeight()">
           <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/conceptualization.html')" style="left:14.74%; top:20.06%; width:10.53%; height:17.96%;"></a>
           <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/encoding.html')" data-key="encoding" style="left:29.65%; top:20.06%; width:10.53%; height:17.96%;"></a>
           <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/evaluation.html')" style="left:44.85%; top:20.06%; width:10.53%; height:17.96%;"></a>
@@ -62,7 +64,7 @@
           <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/maintenance.html')" style="left:89.48%; top:20.21%; width:10.51%; height:17.96%;"></a>
           <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/reuse.html')" style="left:23.5%; top:79.4%; width:10.53%; height:17.96%;"></a>
 
-          <button id="prevBtn" class="nav-arrow nav-arrow--left" onclick="navigate(-1)" aria-label="Anterior">
+          <button id="prevBtn" class="nav-arrow nav-arrow--left" onclick="navigate(-1)" aria-label="Anterior" style="display:none;">
             <i class="bi bi-chevron-left"></i>
           </button>
           <button id="nextBtn" class="nav-arrow nav-arrow--right" onclick="navigate(1)" aria-label="Siguiente">
@@ -143,6 +145,37 @@
 
   </div>
 
+  <!-- Menú lateral superpuesto -->
+<div id="brandMenuBackdrop" class="brand-menu-backdrop" style="display:none;"></div>
+
+<nav id="brandSideMenu" class="brand-side-menu" aria-hidden="true">
+  <div class="brand-side-menu__inner">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h5 mb-0">FAIRbyDesign</h2>
+      <button type="button" class="btn-close" id="brandMenuClose" aria-label="Cerrar"></button>
+    </div>
+
+    <div class="d-grid gap-2">
+      <button type="button" class="btn btn-pill text-start" onclick="loadContent('partials/principal.html')">
+        Top / Overview
+      </button>
+      <button type="button" class="btn btn-pill text-start" onclick="loadContent('partials/requirements.html')">
+        Requirements
+      </button>
+      <button type="button" class="btn btn-pill text-start" onclick="loadContent('partials/conceptualization.html')">
+        Conceptualization
+      </button>
+      <button type="button" class="btn btn-pill text-start" onclick="loadContent('partials/encoding.html')">
+        Encoding
+      </button>
+      <button type="button" class="btn btn-pill text-start" onclick="loadContent('partials/evaluation.html')">
+        Evaluation
+      </button>
+      <!-- Añade aquí los botones que quieras -->
+    </div>
+  </div>
+</nav>
+
 <script>
 
   let currentPageIndex = -1; // Índice actual de la página
@@ -160,8 +193,18 @@
       ];
 
   function updateNavButtons(){
-    prevBtn.disabled = currentPageIndex === 0;
-    nextBtn.disabled = currentPageIndex === pages.length - 1;
+    if (currentPageIndex === -1 || currentPageIndex === 0) {
+        prevBtn.style.display = "none";     // ocultar
+    } else {
+        prevBtn.style.display = "block";    // mostrar
+    }
+
+    // NEXT BUTTON
+    if (currentPageIndex === pages.length - 1) {
+        nextBtn.style.display = "none";     // ocultar
+    } else {
+        nextBtn.style.display = "block";    // mostrar
+    }
   }
 
   function loadContent(contentFile) {
@@ -171,17 +214,18 @@
       currentPageIndex = idx;
       updateNavButtons();
     }
-    // Limpiar el contenido anterior
-    document.getElementById('contentContainer').innerHTML = '';
 
-    fetch(contentFile) // Ruta del archivo con el contenido
-      .then(response => response.text()) // Obtener el contenido como texto
+    const container = document.getElementById('contentContainer');
+    container.innerHTML = '';
+
+    fetch(contentFile)
+      .then(response => response.text())
       .then(html => {
-        document.getElementById('contentContainer').innerHTML = html; // Insertar el contenido en el div
+        container.innerHTML = html;
 
-        // Solo ejecutar el código de los botones si el archivo contiene los botones
         if (contentFile === 'partials/encoding.html') {
-          initializeButtonEvents(); // Solo si es el archivo correcto, inicializar los botones
+          initializeButtonEvents();  
+          initializeDragAndDrop(); 
         }
       })
       .catch(error => console.error('Error al cargar el contenido:', error));
@@ -244,8 +288,49 @@
     if (ev.data.type === 'MAP_HEIGHT')    document.getElementById('appMapa').style.height   = ev.data.height + 'px';
   });
 
+  document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn  = document.getElementById('brandMenuToggle');
+  const sideMenu   = document.getElementById('brandSideMenu');
+  const backdrop   = document.getElementById('brandMenuBackdrop');
+  const closeBtn   = document.getElementById('brandMenuClose');
+
+  if (!toggleBtn || !sideMenu || !backdrop) return;
+
+  function openMenu(){
+    sideMenu.classList.add('brand-side-menu--open');
+    backdrop.style.display = 'block';
+    sideMenu.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeMenu(){
+    sideMenu.classList.remove('brand-side-menu--open');
+    backdrop.style.display = 'none';
+    sideMenu.setAttribute('aria-hidden', 'true');
+  }
+
+  toggleBtn.addEventListener('click', openMenu);
+  closeBtn?.addEventListener('click', closeMenu);
+  backdrop.addEventListener('click', closeMenu);
+
+  // Cerrar con ESC
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') closeMenu();
+  });
+});
+
+
 </script>
 <script src="scripts/scriptsEncoding.js"></script>
+  <div class="floating-shortcuts">
+    <button type="button" class="btn btn-pill floating-btn" id="btnToTop" aria-label="Ir arriba">
+      Top
+    </button>
+    <button type="button" class="btn btn-pill floating-btn" id="btnToWhy" aria-label="Ir a Why">
+      Why?
+    </button>
+    <button type="button" class="btn btn-pill floating-btn" id="btnToPrinciples" aria-label="Ir a Principles">
+      Principles
+    </button>
+  </div>
 </body>
 </html>
-
