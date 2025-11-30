@@ -4,7 +4,136 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-10">
-        <ul class="mb-0">During this activity, the ontology development team generates computable models in a machine readable format, for example the OWL language.
+        <ul class="mb-0">During this activity the ontology is made available online and accessible via its namespace URI as a machine-readable file and a human readable documentation using content negotiation. 
+        </div>
+    </div>
+    </div>
+</section>
+
+<section class="section-gray py-5">
+    <div class="container">
+        <h1 class="section-title display-5 text-center mb-4">Steps</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Paso 1 -->
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="whySection" class="section-blue pt-3 pb-5 mt-0">
+    <div class="container">
+    <h1 class="section-title display-5 text-center mb-4">Why?</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+        <ul class="mb-0">During this activity the ontology development team (possibly aided by system administrators) make the ontology available online. Since during this activity no new resources are generated, the guidelines correspond mostly to the technical aspects of the activity.
+        </div>
+    </div>
+    </div>
+</section>
+
+<section class="section-gray py-5">
+    <div class="container">
+    <div class="container px-0">
+        <div class="row split-row gx-5">
+        <!-- Columna izquierda -->
+        <div class="col-lg-6 d-flex justify-content-center mb-4 mb-lg-0">
+            <div class="half-inner">
+            <h2 class="fw-bold display-6">Resources</h2>
+            <ul class="mt-3 mb-0">
+                <li>Ontology source files</li>
+                <li>Ontology documentation</li>
+            </ul>
+            </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="col-lg-6 d-flex justify-content-center">
+            <div class="half-inner">
+            <h2 class="fw-bold display-6">Roles</h2>
+            <ul class="mt-3 mb-0">
+                <li>Ontology development team</li>
+                <li>Ontology manager / steward</li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section id="principlesSection" class="section-blue py-5">
+    <div class="container">
+    <h1 class="section-title display-5 text-center mb-4">PRINCIPLES</h1>
+
+    <!-- Barra de botones -->
+    <div class="pillbar d-flex justify-content-center flex-wrap gap-3 mb-4">
+        <button type="button" class="btn btn-pill active" data-key="findable">Findable</button>
+        <button type="button" class="btn btn-pill active" data-key="accessible">Accessible</button>
+        <button type="button" class="btn btn-pill active" data-key="interoperable">Interoperable</button>
+        <button type="button" class="btn btn-pill active" data-key="reusable">Reusable</button>
+    </div>
+
+    <!-- Contenidos asociados (uno por botón) -->
+    <div class="fair-content mx-auto" style="max-width: 980px;">
+        <div class="block" data-key="findable">
+        <h5 class="fw-bold">Findable</h5>
+        <p class="mb-0">FVF-1: Vocabulary and their terms are assigned globally unique and persistent identifiers.</p>
+        <p class="mb-0">G&P-5: Use of permanent URIs.</p>
+        <p class="mb-0">F1Q2: Does the ontology provide an additional "external" identifier, i.e., a guarantee globally unique and persistent identifier assigned by an accredited body? If yes, is the external identifier a DOI?</p>
+        <p class="mb-0">F1Q4: Does the ontology provide a version-specific URI, and is this URI resolvable?</p>
+        <p class="mb-0">FBD-Publ1: Ontology metadata, especially when published separately from the ontology source file, should include clear reference to the ontology identifier, including its version, of the ontology described.</p>
+        <p class="mb-0">FVF-4: Vocabularies and their terms are registered or indexed in a searchable engine or a resource.</p>
+        <p class="mb-0">G&P-10: Make the ontology findable on the Web.</p>
+        <p class="mb-0">F4Q1: Is the ontology registered in multiple ontology 'libraries'?</p>
+        <p class="mb-0">F4Q2: Is the ontology registered in multiple open ontology 'repositories'?</p>
+        <p class="mb-0">F4Q3: Are the ontology 'libraries' or 'repositories' properly indexed by Web search engines?</p>
+        <p class="mb-0">P-Rec4: Semantic Artefact and its content should be published in an appropriate semantic repository.</p>
+        <p class="mb-0">Rule-8: Register the vocabulary.</p>
+        <hr class="border-light opacity-25">
+        </div>
+
+        <div class="block" data-key="accessible">
+        <h5 class="fw-bold">Accessible</h5>
+        <p class="mb-0">FVF-5: Vocabularies and their terms are retrievable using a standardised communications protocol, preferably open, free and universally implementable protocols. and allows for authentication and authorisation, where necessary.</p>
+        <p class="mb-0">G&P-1: Design ontology name and prefix.</p>
+        <p class="mb-0">G&P-2: Decide between hash or slash URIs.</p>
+        <p class="mb-0">G&P-4: Define an ontology versioning strategy.</p>
+        <p class="mb-0">A1Q4: Are the ontology and its metadata accessible through another standard protocol such as SPARQL?</p>
+        <p class="mb-0">P-Rec5: Semantic repositories must offer a common API to access semantic artefacts and their content in various serialisations for both use/reuse and indexation by search engines..</p>
+        <p class="mb-0">Rule-9: Make the vocabulary accessible for humans and machines.</p>
+        <p class="mb-0">FVF-5: Vocabularies and their terms are retrievable using a standardised communications protocol, preferably open, free and universally implementable protocols. and allows for authentication and authorisation, where necessary.</p>
+        <p class="mb-0">G&P-9: Provide the ontology online in multiple formats (HTML and ontology serializations).</p>
+        <p class="mb-0">A1.1Q1: Is the ontology relying on HTTP/URIs for its identification and access mechanisms?</p>
+        <p class="mb-0">A1.1Q2: Is the ontology access protocol open, free, and universally implementable?</p>
+        <p class="mb-0">A1.1Q3: If the ontology and metadata are accessible through another protocol, is that protocol open, free, and universally implementable?</p>
+        <p class="mb-0">P-Rec5: Semantic repositories must offer a common API to access semantic artefacts and their content in various serialisations for both use/reuse and indexation by search engines.</p>
+        <p class="mb-0">FVF-5: Vocabularies and their terms are retrievable using a standardised communications protocol, preferably open, free and universally implementable protocols. and allows for authentication and authorisation, where necessary.</p>
+        <p class="mb-0">A1.2Q1: Is the ontology accessible through a protocol that supports authentication and authorization?</p>
+        <p class="mb-0">A1.2Q2: Are the ontology metadata accessible through a protocol that supports authentication and authorization?</p>
+        <p class="mb-0">P-Rec7: Repository should offer a secure protocol and user access control functionalities.</p>
+        <p class="mb-0">FVF-6: Vocabularies and their terms are persistent over time and are appropriately versioned.</p>
+        <p class="mb-0">G&P-10: Make the ontology findable on the Web.</p>
+        <hr class="border-light opacity-25">
+        </div>
+
+        <div class="block" data-key="interoperable">
+        <h5 class="fw-bold">Interoperable</h5>
+        <p class="mb-0">G&P-9: Provide the ontology online in multiple formats (HTML and ontology serializations)</p>
+        <p class="mb-0">P-Rec9: Semantic artefacts must be made available as a minimum portfolio of common serialisation formats.</p>
+        <hr class="border-light opacity-25">
+        </div>
+
+        <div class="block" data-key="reusable">
+        <h5 class="fw-bold">Reusable</h5>
+        <p class="mb-0">FVF-10: Vocabularies are released with a standard data usage licence, preferably machine-readable licence.</p>
+        <p class="mb-0">G&P-6: Generate ontology metadata.</p>
+        <p class="mb-0">FVF-6: Vocabularies and their terms are persistent over time and are appropriately versioned.</p>
+        <p class="mb-0">P-Rec13: Crosswalks, mappings and bridging between semantic artefacts should be documented, published and curated.</p>
+        <p class="mb-0">R1.3Q3: Is the ontology openly and freely available?</p>
+        <p class="mb-0">P-Rec13: Crosswalks, mappings and bridging between semantic artefacts should be documented, published and curated.</p>
         </div>
     </div>
     </div>

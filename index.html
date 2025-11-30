@@ -21,8 +21,9 @@
             <button
               type="button"
               id="brandMenuToggle"
-              class="col-auto d-flex align-items-center justify-content-center brand-block header-height border-0 bg-transparent text-decoration-none"
+              class="col-auto d-flex align-items-center justify-content-center brand-block header-height border-0 text-decoration-none"
               aria-label="Abrir menú FAIRbyDesign">
+              <i class="bi bi-list me-2"></i>
               <span class="fw-bold text-dark">FAIRbyDesign</span>
             </button>
 
@@ -54,15 +55,15 @@
     <div class="page-content mb-0">
       <main class="container py-2 pb-0">  
         <div class="position-relative" style="max-width:1140px; margin:auto;">
-          <img src="assets/FiguraLOT.svg" class="img-fluid d-block " alt="Mapa FAIRbyDesign" onload="sendHeight()">
-          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/conceptualization.html')" style="left:14.74%; top:20.06%; width:10.53%; height:17.96%;"></a>
-          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/encoding.html')" data-key="encoding" style="left:29.65%; top:20.06%; width:10.53%; height:17.96%;"></a>
-          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/evaluation.html')" style="left:44.85%; top:20.06%; width:10.53%; height:17.96%;"></a>
-          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/documentation.html')" style="left:59.7%; top:20.06%; width:10.53%; height:17.96%;"></a>
-          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/requirements.html')" style="left:0.09%; top:20.21%; width:10.53%; height:17.96%;"></a>
-          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/publication.html')" style="left:74.3%; top:20.06%; width:10.53%; height:17.96%;"></a>
-          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/maintenance.html')" style="left:89.48%; top:20.21%; width:10.51%; height:17.96%;"></a>
-          <a class="hotspot" href="javascript:void(0);" onclick="loadContent('partials/reuse.html')" style="left:23.5%; top:79.4%; width:10.53%; height:17.96%;"></a>
+          <img src="../assets/FiguraLOT.svg" class="img-fluid d-block " alt="Mapa FAIRbyDesign" onload="sendHeight()">
+          <a class="hotspot" data-page="partials/conceptualization.html" href="javascript:void(0);" onclick="loadContent('partials/conceptualization.html')" style="left:14.74%; top:20.06%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" data-page="partials/encoding.html" href="javascript:void(0);" onclick="loadContent('partials/encoding.html')" data-key="encoding" style="left:29.65%; top:20.06%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" data-page="partials/evaluation.html" href="javascript:void(0);" onclick="loadContent('partials/evaluation.html')" style="left:44.85%; top:20.06%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" data-page="partials/documentation.html" href="javascript:void(0);" onclick="loadContent('partials/documentation.html')" style="left:59.7%; top:20.06%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" data-page="partials/requirements.html" href="javascript:void(0);" onclick="loadContent('partials/requirements.html')" style="left:0.09%; top:20.21%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" data-page="partials/publication.html" href="javascript:void(0);" onclick="loadContent('partials/publication.html')" style="left:74.3%; top:20.06%; width:10.53%; height:17.96%;"></a>
+          <a class="hotspot" data-page="partials/maintenance.html" href="javascript:void(0);" onclick="loadContent('partials/maintenance.html')" style="left:89.48%; top:20.21%; width:10.51%; height:17.96%;"></a>
+          <a class="hotspot" data-page="partials/reuse.html" href="javascript:void(0);" onclick="loadContent('partials/reuse.html')" style="left:23.5%; top:79.4%; width:10.53%; height:17.96%;"></a>
 
           <button id="prevBtn" class="nav-arrow nav-arrow--left" onclick="navigate(-1)" aria-label="Anterior" style="display:none;">
             <i class="bi bi-chevron-left"></i>
@@ -108,6 +109,7 @@
       // Inicializa
       window.addEventListener('DOMContentLoaded', () => {
         highlightActive();
+        enableHotspotPin();
         sendHeight();
       });
       window.addEventListener('resize', sendHeight);
@@ -115,6 +117,27 @@
       if('ResizeObserver' in window){
         new ResizeObserver(sendHeight).observe(document.body);
       }
+
+      function placePinOn(el) {
+        // Quitar chincheta de cualquier hotspot anterior
+        document.querySelectorAll('.hotspot--current')
+          .forEach(hs => hs.classList.remove('hotspot--current'));
+
+        // Poner chincheta en el hotspot actual
+        if (el) {
+          el.classList.add('hotspot--current');
+        }
+      }
+
+      function enableHotspotPin() {
+        document.querySelectorAll('.hotspot').forEach(el => {
+          el.addEventListener('click', () => {
+            placePinOn(el);
+            requestAnimationFrame(sendHeight);
+          });
+        });
+      }
+
       </script>
     </div>
 
@@ -215,6 +238,8 @@
       updateNavButtons();
     }
 
+    updateHotspotPinFor(contentFile);
+
     const container = document.getElementById('contentContainer');
     container.innerHTML = '';
 
@@ -223,26 +248,37 @@
       .then(html => {
         container.innerHTML = html;
 
-        if (contentFile === 'partials/encoding.html') {
-          initializeButtonEvents();  
-          initializeDragAndDrop(); 
-        }
+        if (container.querySelector('.pillbar')) {
+        initializeButtonEvents();
+      }
+
+      // Solo encoding tiene drag & drop
+      if (contentFile === 'partials/encoding.html' && typeof initializeDragAndDrop === 'function') {
+        initializeDragAndDrop();
+      }
       })
       .catch(error => console.error('Error al cargar el contenido:', error));
   }
 
   function navigate(direction) {
-        currentPageIndex += direction; // Cambiar el índice
-        if (currentPageIndex < 0) {
-          currentPageIndex = 0; // No permitir que sea menor a 0
-        }
-        if (currentPageIndex >= pages.length) {
-          currentPageIndex = pages.length - 1; // No permitir que sea mayor al número de páginas
-        }
+    currentPageIndex += direction; // Cambiar el índice
+    if (currentPageIndex < 0) {
+      currentPageIndex = 0; // No permitir que sea menor a 0
+    }
+    if (currentPageIndex >= pages.length) {
+      currentPageIndex = pages.length - 1; // No permitir que sea mayor al número de páginas
+    }
 
-        // Cargar la página correspondiente
-        loadContent(pages[currentPageIndex]);
-      }
+    // Cargar la página correspondiente
+    loadContent(pages[currentPageIndex]);
+  }
+
+  function updateHotspotPinFor(contentFile) {
+    const el = document.querySelector('.hotspot[data-page="' + contentFile + '"]');
+    if (typeof placePinOn === 'function') {
+      placePinOn(el || null); 
+    }
+  }
 
   // Función para inicializar los botones después de cargar el HTML
   function initializeButtonEvents() {
@@ -334,4 +370,3 @@
   </div>
 </body>
 </html>
-

@@ -4,7 +4,121 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-10">
-        <ul class="mb-0">During this activity, the ontology development team generates computable models in a machine readable format, for example the OWL language.
+        <ul class="mb-0">This activity refers to using  and employing   an existing ontology or vocabulary when developing a new ontology.
+        </div>
+    </div>
+    </div>
+</section>
+
+<section class="section-gray py-5">
+    <div class="container">
+        <h1 class="section-title display-5 text-center mb-4">Steps</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Paso 1 -->
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="whySection" class="section-blue pt-3 pb-5 mt-0">
+    <div class="container">
+    <h1 class="section-title display-5 text-center mb-4">Why?</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+        <ul class="mb-0">During the ontology reuse activity, candidate ontologies to be reused are analyzed and decisions about which ontologies will be reused (i.e, imported, extended, specialized, generalized, etc.) and how are made. As the reused parts become part of the ontology being built, they should be treated as final outputs and FAIR Principles should be applied to them. In addition, thus the team reusing existing ontologies shall pay attention to favour FAIR components.
+    </div>
+    </div>
+</section>
+
+<section class="section-gray py-5">
+    <div class="container">
+    <div class="container px-0">
+        <div class="row split-row gx-5">
+        <!-- Columna izquierda -->
+        <div class="col-lg-6 d-flex justify-content-center mb-4 mb-lg-0">
+            <div class="half-inner">
+            <h2 class="fw-bold display-6">Resources</h2>
+            <ul class="mt-3 mb-0">
+                <li>Ontology code</li>
+                <li>Ontology conceptualization</li>
+                <li>Ontology requirements</li>
+            </ul>
+            </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="col-lg-6 d-flex justify-content-center">
+            <div class="half-inner">
+            <h2 class="fw-bold display-6">Roles</h2>
+            <ul class="mt-3 mb-0">
+                <li>Ontology development team</li>
+                <li>Domain experts</li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section id="principlesSection" class="section-blue py-5">
+    <div class="container">
+    <h1 class="section-title display-5 text-center mb-4">PRINCIPLES</h1>
+
+    <!-- Barra de botones -->
+    <div class="pillbar d-flex justify-content-center flex-wrap gap-3 mb-4">
+        <button type="button" class="btn btn-pill active" data-key="findable">Findable</button>
+        <button type="button" class="btn btn-pill active" data-key="accessible">Accessible</button>
+        <button type="button" class="btn btn-pill active" data-key="interoperable">Interoperable</button>
+        <button type="button" class="btn btn-pill active" data-key="reusable">Reusable</button>
+    </div>
+
+    <!-- Contenidos asociados (uno por botón) -->
+    <div class="fair-content mx-auto" style="max-width: 980px;">
+        <div class="block" data-key="findable">
+        <h5 class="fw-bold">Findable</h5>
+        <p class="mb-0">FBD-Reus1: Provide metadata about which ontologies are being reused (understanding reuse as an extension, import, specialisation or generalisation of an ontology)</p>
+        <p class="mb-0">FBD-Reus2: Verify if the reused ontology should be referenced by including their corresponding versioning information (in case the version IRI is provided by the original ontology). [Additional reference: MIREOT https://doi.org/10.1038/npre.2009.3576.1]</p>
+        <hr class="border-light opacity-25">
+        </div>
+
+        <div class="block" data-key="accessible">
+        <h5 class="fw-bold">Accessible</h5>
+        <p class="mb-0">A1Q1: Do the ontology URI and other identifiers, if they exist, resolve to the ontology?</p>
+        <p class="mb-0">A1Q2: Does the ontology URI (if metadata are included in the ontology file) or the external metadata URI resolve to the metadata record?</p>
+        <p class="mb-0">A1Q3: Do the ontology URI and the external metadata URI (if the metadata are not included in the ontology file), support content negotiation?</p>
+        <p class="mb-0">FBD-Reus3: The reused ontologies or terms shall be accessible as any other objects within the ontology (all Accessibility principles affected).</p>
+        <hr class="border-light opacity-25">
+        </div>
+
+        <div class="block" data-key="interoperable">
+        <h5 class="fw-bold">Interoperable</h5>
+        <p class="mb-0">I1Q1: What is the representation language used for the ontology and ontology metadata?</p>
+        <p class="mb-0">I1Q2: Is the representation language used in a W3C Recommendation?</p>
+        <p class="mb-0">FBD-Reus4: Reuse ontologies and terms are (or are coming from) resources implemented in standard languages</p>
+        <p class="mb-0">FBD-Reus5: Use standard languages for implementing the reuse, for example OWL primitives (owl:equivalentClass, owl:equivalentProperty, etc.), RDF(S) primitives (rdfs:subClassOf, rdfs:subPropertyOf), SKOS properties (skos:broader, skos:narrower, etc), SSSOM, etc.</p>
+        <p class="mb-0">I2Q1: Does the ontology import other FAIR vocabularies?</p>
+        <p class="mb-0">I2Q2:Does the ontology reuse terms from other FAIR vocabularies (URIs)?</p>
+        <p class="mb-0">I2Q3:If yes, does it include the minimum information for those terms?</p>
+        <p class="mb-0">I2Q3:If yes, does it include the minimum information for those terms?</p>
+        <p class="mb-0">I2Q5:  If yes, are those alignments well represented and to unambiguous entities? If yes, are those alignments curated?</p>
+        <p class="mb-0">I2Q7: Does the ontology reuse standard and FAIR metadata vocabularies to describe its metadata?</p>
+        <p class="mb-0">FBD-Reus6: Assess candidate ontologies/vocabularies FAIRness level. Check the FAIRness level within a repository https://wheat.agroportal.lirmm.fr/  or by stand alone applications (e.g. FOOPS! https://w3id.org/foops/ )</p>
+        <p class="mb-0">FVF-8: Vocabularies and terms use qualified references to other vocabularies.</p>
+        <hr class="border-light opacity-25">
+        </div>
+
+        <div class="block" data-key="reusable">
+        <h5 class="fw-bold">Reusable</h5>
+        <p class="mb-0">I2Q3:If yes, does it include the minimum information for those terms?</p>
+        <p class="mb-0">Rule-2: Verify that the legacy-vocabulary license allows repurposing, and agree on the license for the FAIR vocabulary.</p>
+        <p class="mb-0">FBD-Reus7: Identify the licenses of the reused vocabularies and analyse their compatibility.</p>
+        <p class="mb-0">FBD-Reus8: Provide a license for the ontology being built compatible with the licenses from the reused ontologies. </p>
+        <p class="mb-0">P-Rec15: Provenance information regarding the reuse of components from third-party semantic artefacts should be made explicit.</p>
+        <p class="mb-0">FBD-Reus9: Use standard languages for implementing the reuse, for example OWL primitives (owl:equivalentClass, owl:equivalentProperty, etc.), RDF(S) primitives (rdfs:subClassOf, rdfs:subPropertyOf), SKOS properties (skos:broader, skos:narrower, etc), SSSOM, etc.</p>
         </div>
     </div>
     </div>

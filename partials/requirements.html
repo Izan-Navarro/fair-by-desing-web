@@ -4,7 +4,111 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-10">
-        <ul class="mb-0">During this activity, the ontology development team generates computable models in a machine readable format, for example the OWL language.
+        <ul class="mb-0">The aim of the requirements specification phase  is to state why the ontology is being built and to identify and define the requirements the ontology should fulfil.
+        </div>
+    </div>
+    </div>
+</section>
+
+<section class="section-gray py-5">
+    <div class="container">
+        <h1 class="section-title display-5 text-center mb-4">Steps</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Paso 1 -->
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="whySection" class="section-blue pt-3 pb-5 mt-0">
+    <div class="container">
+    <h1 class="section-title display-5 text-center mb-4">Why?</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+        <ul class="mb-0">Ontological requirements play a crucial role in ontology development projects defining the needs that the intended model should fulfill. 
+Even though they are rarely published together with the resulting ontologies, ontology requirements could be valuable for potential users to understand the ontology. 
+In addition, ontological requirements can be considered not only as metadata about the resulting ontology but also as provenance information. 
+For these reasons, ontology requirements should be treated as first class citizens  and key resources during the ontology development process, applying the FAIR Principles to them when possible.
+    </div>
+    </div>
+</section>
+
+<section class="section-gray py-5">
+    <div class="container">
+    <div class="container px-0">
+        <div class="row split-row gx-5">
+        <!-- Columna izquierda -->
+        <div class="col-lg-6 d-flex justify-content-center mb-4 mb-lg-0">
+            <div class="half-inner">
+            <h2 class="fw-bold display-6">Resources</h2>
+            <ul class="mt-3 mb-0">
+                <li>ORSD (Ontology Requirements Specification Document)</li>
+                <li>List of  Functional Requirements (Competency Questions or natural language affirmative sentences)</li>
+                <li>(optional) Functional Requirements Formalization</li>
+            </ul>
+            </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="col-lg-6 d-flex justify-content-center">
+            <div class="half-inner">
+            <h2 class="fw-bold display-6">Roles</h2>
+            <ul class="mt-3 mb-0">
+                <li>Ontology development team</li>
+                <li>Ontology users</li>
+                <li>Domain experts</li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section id="principlesSection" class="section-blue py-5">
+    <div class="container">
+    <h1 class="section-title display-5 text-center mb-4">PRINCIPLES</h1>
+
+    <!-- Barra de botones -->
+    <div class="pillbar d-flex justify-content-center flex-wrap gap-3 mb-4">
+        <button type="button" class="btn btn-pill active" data-key="findable">Findable</button>
+        <button type="button" class="btn btn-pill active" data-key="accessible">Accessible</button>
+        <button type="button" class="btn btn-pill active" data-key="interoperable">Interoperable</button>
+        <button type="button" class="btn btn-pill active" data-key="reusable">Reusable</button>
+    </div>
+
+    <!-- Contenidos asociados (uno por botón) -->
+    <div class="fair-content mx-auto" style="max-width: 980px;">
+        <div class="block" data-key="findable">
+        <h5 class="fw-bold">Findable</h5>
+        <p class="mb-0">FBD-Requ1: Provide identifiers to functional requirements (competency questions or other forms).</p>
+        <p class="mb-0">FBD-Requ2: Provide links to functional requirements (competency questions or other forms) either in a compiled version or separated in different files.</p>
+        <p class="mb-0">FBD-Requ3: Provide versioning information about the requirements and the ontology versions.</p>
+        <p class="mb-0">FBD-Requ4: Provide metadata information about requirements (e.g., authors, projects related, modification dates, status).</p>
+        <hr class="border-light opacity-25">
+        </div>
+
+        <div class="block" data-key="accessible">
+        <h5 class="fw-bold">Accessible</h5>
+        <p class="mb-0">FBD-Requ5: Use HTTP URIs to identify requirements (or sets) and retrieve them.</p>
+        <hr class="border-light opacity-25">
+        </div>
+
+        <div class="block" data-key="interoperable">
+        <h5 class="fw-bold">Interoperable</h5>
+        <p class="mb-0">FBD-Requ6: Provide requirements at least in an open format file as csv or text.</p>
+        <p class="mb-0">FBD-Requ7: Optimal: Provide RDF description of the requirements retrievable from their URIs (see: http://w3id.org/def/ontoreq).</p>
+        <hr class="border-light opacity-25">
+        </div>
+
+        <div class="block" data-key="reusable">
+        <h5 class="fw-bold">Reusable</h5>
+        <p class="mb-0">FBD-Requ8: Requirements are richly described as instances of formal objects from a relevant metadata vocabulary such as MOD or OntoReq. Recommended metadata fields are: requirements identifier, author, creation date, version of the ORSD, license of the ORSD, keywords, produced ontology</p>
+        <p class="mb-0">FBD-Requ9: Define a usage license for the requirements.</p>
+        <p class="mb-0">FBD-Requ10: Use available Ontology Requirement Specification Document templates following the NeOn and LOT methodology, for example: https://github.com/oeg-upm/LOT-resources/tree/master/templates%20for%20ORSD .</p>
         </div>
     </div>
     </div>

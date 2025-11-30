@@ -19,6 +19,7 @@
             <div class="col-lg-10">
                 <!-- Paso 1 -->
                 <div class="step-box step mb-4 p-4">
+                    <span class="step-pill">improves f.</span>
                     <h5>1. Design your ontology name</h5>
                     <ul>
                         <li>Define your ontology URI, for example</li>
@@ -27,51 +28,88 @@
                             <li>Opaque URIs?</li>
                         </ul>
                     </ul>
-                    <button class="btn btn-pill" onclick="toggleInput('prefixInput')">Check your prefix</button>
-                    <button class="btn btn-pill" onclick="toggleInput('uriInput')">Check your candidate URI</button>
 
               
-                    <div id="prefixInput" class="input-container" style="display:none;">
+                    <!-- PREFIJO -->
+                    <div id="prefixInput" class="input-container mb-3">
                         <form id="prefixForm" onsubmit="submitForm('prefixField'); return false;" class="d-flex">
-                            <input type="text" id="prefixField" placeholder="Enter prefix" class="form-control" style="flex-grow: 1;" />
-                            <button type="submit" class="btn btn-pill ms-2">Submit</button>
+                        <input type="text" id="prefixField" placeholder="Enter prefix" class="form-control" style="flex-grow: 1;" />
+                        <button type="submit" class="btn btn-pill ms-2">Submit</button>
                         </form>
-        
-                        <div id="loadingSpinner" class="text-center my-2" style="display: none;">
+
+                        <!-- Spinner y resultado SOLO para prefix -->
+                        <div id="loadingSpinnerPrefix" class="text-center my-2" style="display: none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        </div>
+
+                        <div id="resultContainerPrefix" class="alert alert-light mt-2" style="display:none;"></div>
+                    </div>
+
+
+                    <!-- NAMESPACE URI -->
+                    <div id="uriInput" class="input-container">
+                        <form id="uriForm" onsubmit="submitForm('uriField'); return false;" class="d-flex">
+                        <input type="text" id="uriField" placeholder="Enter namespace URI" class="form-control" style="flex-grow: 1;" />
+                        <button type="submit" class="btn btn-pill ms-2">Submit</button> 
+                        </form>
+
+                        <div class="mt-3">
+                            <label class="form-label d-block">
+                                Have you decided whether to use opaque or readable URIs for ontology elements?
+                            </label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="opaqueChoice" id="opaqueYes" value="yes">
+                                <label class="form-check-label" for="opaqueYes">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="opaqueChoice" id="opaqueNo" value="no">
+                                <label class="form-check-label" for="opaqueNo">Not yet</label>
+                            </div>
+                        </div>
+
+                        <!-- Spinner y resultado SOLO para namespace URI (debajo del checklist) -->
+                        <div id="loadingSpinnerUri" class="text-center my-2" style="display: none;">
                             <div class="spinner-border text-primary" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
                         </div>
 
-
-                        <div id="resultContainer" class="alert alert-light mt-2" style="display:none;"></div>
-                    </div>
-                    <div id="uriInput" class="input-container" style="display:none;">
-                        <form id="uriForm" onsubmit="submitForm('uriField'); return false;" class="d-flex">
-                            <input type="text" id="uriField" placeholder="Enter URI" class="form-control" style="flex-grow: 1;" />
-                            <button type="submit" class="btn btn-pill ms-2">Submit</button> 
-                        </form>
+                        <div id="resultContainerUri" class="alert alert-light mt-2" style="display:none;"></div>
                     </div>
                 </div>
 
                 <div class="step-box step mb-4 p-4">
-                    <h5>2. Add basic metadata</h5>
+                    <span class="step-pill">improves f.</span>
+                    <h5>2. Think about versions!</h5>
+                    <div id="versionResult" class="alert alert-light mt-3" style="display:none;"></div>
+                </div>
+
+                <div class="step-box step mb-4 p-4">
+                    <span class="step-pill">improves f.</span>
+                    <h5>3. Add basic metadata</h5>
                     <p>Snippet</p>
                     <button class="btn btn-pill">Example of snippet</button>
                 </div>
 
                 <div class="step-box step mb-4 p-4">
-                    <h5>3. Think about versions!</h5>
-                    <button class="btn btn-pill">Check your version schema</button>
-                </div>
-
-                <div class="step-box step mb-4 p-4">
+                    <span class="step-pill">improves f.</span>
                     <h5>4. Generate code in different serializations</h5>
                     <p>If you have a chowlk diagram...</p>
                     <div class="drop-area" id="drag-drop-area" style="cursor: pointer;">
-                        <p class="lead text-dark drag-text" id="drag-text">Drag and drop your diagram or click to choose
-                            your file</p>
+                        <p class="lead text-dark drag-text" id="drag-text">
+                        Drag and drop your diagram or click to choose your file
+                        </p>
                         <div id="response" style="display: none;"></div>
+
+                        <!-- NUEVO: botón de descarga TTL -->
+                        <div id="downloadTtlWrapper" class="mt-2 text-end" style="display:none;">
+                        <button type="button" id="downloadTtlBtn" class="btn btn-pill btn-sm">
+                            Download TTL
+                        </button>
+                        </div>
+
                         <input type="file" id="fileElem" style="display: none;">
                     </div>
                 </div>
@@ -161,7 +199,6 @@
         <p class="mb-0">G&P-4: Define an ontology versioning strategy.</p>
         <p class="mb-0">G&P-9: Provide the ontology online in multiple formats (HTML and ontology serializations).</p>
         <p class="mb-0">P-Rec8: Human and machine-readable persistence policies for semantic artefacts metadata and data must be defined.</p>
-        
         <p class="mb-0"></p>
         <p class="mb-0"></p>
         <hr class="border-light opacity-25">
@@ -207,7 +244,6 @@
         <p class="mb-0">P-Rec3: A common minimum metadata schema must be used to describe semantic artefacts and their content.</p>
         <p class="mb-0">P-Rec12: Semantic mappings between the different elements of semantic artefacts should be serialised in machine-readable formats.</p>
         <p class="mb-0"></p>
-
         </div>
         
     </div>

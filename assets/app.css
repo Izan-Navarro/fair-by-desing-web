@@ -47,10 +47,14 @@ body { margin: 0; }
 .section-gray{ background:#eef1f5; color:#111; }
 .section-title{ font-weight:800; letter-spacing:.5px; }
 
-/* Hotspots invisibles */
-.hotspot{
-  position:absolute; display:block; cursor:pointer;
-  background:transparent; border:0; border-radius:6px;
+/* Hotspot activo con chincheta */
+.hotspot--current::after {
+  content: "📌";              /* cámbialo por una imagen si quieres */
+  position: absolute;
+  top: -0.4rem;               /* un poco por encima */
+  right: -0.4rem;             /* un poco hacia la derecha */
+  font-size: 1.2rem;
+  z-index: 10;
 }
 
 /* Estado activo (cuadrado marcado en la página de destino) */
@@ -279,4 +283,22 @@ body { margin: 0; }
   inset: 0;
   background: rgba(0,0,0,.35);
   z-index: 1190;
+}
+
+.step-box {
+  position: relative; /* clave para que el pill se posicione dentro */
+}
+
+.step-pill {
+  position: absolute;
+  top: 1.0rem;
+  right: 1.0rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background-color: #198754; /* verde Bootstrap */
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 2;
+  white-space: nowrap;
 }
