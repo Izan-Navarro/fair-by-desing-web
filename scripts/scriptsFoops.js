@@ -278,7 +278,7 @@
 
     const hidden = (pre.style.display === 'none' || getComputedStyle(pre).display === 'none');
     pre.style.display = hidden ? 'block' : 'none';
-    btn.textContent = hidden ? 'Ocultar JSON' : 'Mostrar JSON';
+    btn.textContent = hidden ? 'Hide JSON' : 'Show JSON';
   });
 
 
@@ -413,7 +413,7 @@
     let status = passed;
     if (status === null && pct !== null) status = (pct >= 100); // umbral 100%
 
-    const statusLabel = (status === true) ? 'PASADO' : (status === false) ? 'NO PASADO' : 'DESCONOCIDO';
+    const statusLabel = (status === true) ? 'PAST' : (status === false) ? 'FAILED' : 'UNKNOWN';
     const badgeClass = (status === true) ? 'bg-success' : (status === false) ? 'bg-danger' : 'bg-secondary';
     const barClass = (status === true) ? 'bg-success' : (status === false) ? 'bg-danger' : 'bg-secondary';
     const iconClass = (status === true)
