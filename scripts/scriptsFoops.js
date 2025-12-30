@@ -182,7 +182,7 @@
     },
 
     find3bisForm: {
-      testCode: 'FIND_3_BIS',
+      testCode: 'FIND3', //FIND_3_BIS
       fieldId: 'find3bisField',
       boxId: 'find3bisResult',
       rawId: 'find3bisRaw',
@@ -195,7 +195,7 @@
     },
 
     om42Form: {
-      testCode: "OM4.2",
+      testCode: "OM4_2", //OM4.2
       fieldId: "om42Field",
       boxId: "om42Result",
       rawId: "om42Raw",
@@ -239,32 +239,49 @@
   // Delegación: captura submit(s)
   // -----------------------------
   document.addEventListener('submit', async (e) => {
-    const form = e.target;
-    const cfg = TESTS_MAP[form?.id];
-    if (!cfg) return; // no es uno de los formularios mapeados
+      const form = e.target;
+      const cfg = TESTS_MAP[form?.id];
+      if (!cfg) return; // no es uno de los formularios mapeados
 
-    e.preventDefault();
+      e.preventDefault();
 
-    // Obtén el valor del campo
-    const input = form.querySelector(`#${cfg.fieldId}`);
-    const value = (input?.value || '').trim();
+      // Obtén el valor del campo
+      const input = form.querySelector(`#${cfg.fieldId}`);
+      const value = (input?.value || '').trim();
 
-    // Validaciones comunes
-    if (!value) {
-      showMessage(cfg, 'Please enter an ontology URI (e.g., https://w3id.org/your-ontology#).', 'warning', { hideRaw: true });
-      return;
-    }
-    if (!isValidUri(value)) {
-      showMessage(cfg, 'The value does not look like a valid URI. Enter the ontology URI (not just a prefix).', 'warning', { hideRaw: true });
-      return;
-    }
+      // Validaciones comunes
+      if (!value) {
+        showMessage(cfg, 'Please enter an ontology URI (e.g., https://w3id.org/your-ontology#).', 'warning', { hideRaw: true });
+        return;
+      }
+      if (!isValidUri(value)) {
+        showMessage(cfg, 'The value does not look like a valid URI. Enter the ontology URI (not just a prefix).', 'warning', { hideRaw: true });
+        return;
+      }
 
-    // Asegura contenedores (si faltan en el DOM, los creamos bajo el form)
-    ensureContainers(cfg, form);
+      // Asegura contenedores (si faltan en el DOM, los creamos bajo el form)
+      ensureContainers(cfg, form);
 
-    // Ejecuta el test
-    await runFOOPSTest(cfg, value);
+      // Ejecuta el test
+      await runFOOPSTest(cfg, value);
+    });
+
+
+
+    document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-foops-toggle]');
+    if (!btn) return;
+
+    const rawId = btn.getAttribute('data-foops-toggle');
+    const pre = document.getElementById(rawId);
+    if (!pre) return;
+
+    const hidden = (pre.style.display === 'none' || getComputedStyle(pre).display === 'none');
+    pre.style.display = hidden ? 'block' : 'none';
+    btn.textContent = hidden ? 'Ocultar JSON' : 'Mostrar JSON';
   });
+
+
 
   // -----------------------------
   // Utils de validación/UI/DOM
@@ -276,21 +293,41 @@
   function ensureContainers(cfg, form) {
     let box = document.getElementById(cfg.boxId);
     let raw = document.getElementById(cfg.rawId);
+    const toggleId = `${cfg.rawId}Toggle`;
+    let toggle = document.getElementById(toggleId);
 
     if (!box) {
       box = document.createElement('div');
       box.id = cfg.boxId;
-      box.className = 'alert mt-3';
+      box.className = 'mt-3';
       box.style.display = 'none';
       form.insertAdjacentElement('afterend', box);
     }
     if (!raw) {
       raw = document.createElement('pre');
       raw.id = cfg.rawId;
+      raw.className = 'mt-2';
       raw.style.display = 'none';
       raw.style.maxHeight = '300px';
       raw.style.overflow = 'auto';
       box.insertAdjacentElement('afterend', raw);
+    } else {
+      raw.style.maxHeight = raw.style.maxHeight || '300px';
+      raw.style.overflow = raw.style.overflow || 'auto';
+      raw.style.display = 'none';
+    }
+
+    if (!toggle) {
+      toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.id = toggleId;
+      toggle.className = 'btn btn-sm btn-outline-secondary mt-2';
+      toggle.textContent = 'Mostrar JSON';
+      toggle.style.display = 'none';
+      toggle.setAttribute('data-foops-toggle', cfg.rawId);
+
+      if (raw && raw.parentNode) raw.parentNode.insertBefore(toggle, raw);
+      else box.insertAdjacentElement('afterend', toggle);
     }
   }
 
@@ -322,15 +359,101 @@
   // Muestra el JSON/texto devuelto por FOOPS! en el <pre>
   function showRaw(cfg, dataOrText) {
     const raw = document.getElementById(cfg.rawId);
+    const toggle = document.getElementById(`${cfg.rawId}Toggle`);
     if (!raw) return;
 
-    raw.style.display = 'block';
-    if (typeof dataOrText === 'string') {
-      raw.textContent = dataOrText;
-    } else {
-      raw.textContent = JSON.stringify(dataOrText, null, 2);
+    raw.textContent = (typeof dataOrText === 'string')
+      ? dataOrText
+      : JSON.stringify(dataOrText, null, 2);
+
+    raw.style.display = 'none';
+
+    if (toggle) {
+      toggle.style.display = 'inline-block';
+      toggle.textContent = 'Mostrar JSON';
     }
   }
+
+
+  function extractCompletion(data) {
+    const c = data?.completion;
+    if (c == null) return null;
+    if (typeof c === 'number') return c;
+    if (typeof c === 'string') return Number.isFinite(Number(c)) ? Number(c) : null;
+    if (typeof c === 'object') {
+      const v = c['@value'] ?? c.value ?? c._value;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+    return null;
+  }
+
+  function extractTitle(cfg, data) {
+    return data?.outputFromTest?.title || data?.title || cfg?.testCode || 'FOOPS! test';
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  function showSummary(cfg, data, passed) {
+    const box = document.getElementById(cfg.boxId);
+    if (!box) return;
+
+    const completion = extractCompletion(data);
+    const pct = (typeof completion === 'number' && completion >= 0)
+      ? Math.max(0, Math.min(100, completion))
+      : null;
+
+    let status = passed;
+    if (status === null && pct !== null) status = (pct >= 100); // umbral 100%
+
+    const statusLabel = (status === true) ? 'PASADO' : (status === false) ? 'NO PASADO' : 'DESCONOCIDO';
+    const badgeClass = (status === true) ? 'bg-success' : (status === false) ? 'bg-danger' : 'bg-secondary';
+    const barClass = (status === true) ? 'bg-success' : (status === false) ? 'bg-danger' : 'bg-secondary';
+    const iconClass = (status === true)
+      ? 'bi-check-circle-fill text-success'
+      : (status === false)
+        ? 'bi-x-circle-fill text-danger'
+        : 'bi-question-circle-fill text-secondary';
+
+    const title = extractTitle(cfg, data);
+    const desc = data?.description || data?.log || '';
+
+    box.style.display = 'block';
+    box.className = 'card mt-3 shadow-sm';
+    box.innerHTML = `
+      <div class="card-body">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+          <div class="fw-semibold">
+            <i class="bi ${iconClass} me-2"></i>${escapeHtml(title)}
+          </div>
+          <span class="badge ${badgeClass}">${statusLabel}</span>
+        </div>
+
+        <div class="mt-3">
+          <div class="d-flex align-items-center justify-content-between">
+            <small class="text-muted">Completion</small>
+            <small class="fw-semibold">${pct === null ? '—' : pct + '%'}</small>
+          </div>
+          <div class="progress mt-1" role="progressbar" aria-valuenow="${pct ?? 0}" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar ${barClass}" style="width: ${pct ?? 0}%"></div>
+          </div>
+        </div>
+
+        ${desc ? `<div class="mt-3 small text-muted">${escapeHtml(desc)}</div>` : ''}
+      </div>
+    `;
+  }
+
+
+
+
 
   // -----------------------------
   // Runner genérico para FOOPS!
@@ -372,13 +495,7 @@
         const passed = inferPass(cfg.testCode, data);
 
         // 3) Mostramos mensaje final (no ocultar <pre>) y luego el JSON
-        if (passed === true) {
-          showMessage(cfg, cfg.messages.pass, 'success');
-        } else if (passed === false) {
-          showMessage(cfg, cfg.messages.fail, 'warning');
-        } else {
-          showMessage(cfg, cfg.messages.generic, 'info');
-        }
+        showSummary(cfg, data, passed);
         showRaw(cfg, data);
 
         return; // éxito → no probar siguientes payloads
@@ -397,24 +514,15 @@
   // -----------------------------
   function inferPass(testCode, data) {
     try {
-      // 1) Respuesta con lista de tests
-      if (data?.tests) {
-        const t = Array.isArray(data.tests)
-          ? data.tests.find(x => new RegExp(testCode, 'i').test(x?.id || x?.shortName || ''))
-          : null;
-
-        if (t && typeof t.passed === 'boolean') return t.passed;
-        if (t && typeof t.result === 'string') {
-          if (/pass/i.test(t.result)) return true;
-          if (/fail/i.test(t.result)) return false;
-        }
+      if (typeof data?.value === 'string') {
+        if (/^(ok|pass(ed)?)$/i.test(data.value)) return true;
+        if (/^(fail(ed)?|error|not\s*ok)$/i.test(data.value)) return false;
       }
-      // 2) Respuesta con campo "status"
-      if (typeof data?.status === 'string') {
-        if (/pass/i.test(data.status)) return true;
-        if (/fail/i.test(data.status)) return false;
+      const pct = extractCompletion(data);
+      if (typeof pct === 'number') {
+        if (pct >= 100) return true;
+        if (pct <= 0) return false;
       }
-      // 3) Otra estructura → desconocido
     } catch {}
     return null;
   }
